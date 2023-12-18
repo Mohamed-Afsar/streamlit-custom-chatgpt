@@ -40,4 +40,15 @@ with st.sidebar:
             AIMessage(content=response.content)
         )
 
-st.session_state.messages
+# st.session_state.messages
+if len(st.session_state.messages) >= 1:
+    if not isinstance(st.session_state.messages[0], SystemMessage):
+        st.session_state.messages.insert(0, SystemMessage(
+            content='You are an helpful assitant'
+        ))
+
+for i,msg in enumerate(st.session_state.messages[1:]):
+    if i % 2 == 0:
+        message(msg.content, is_user=True, key=f'{i} + 🤓')
+    else:
+        message(msg.content, is_user=False, key=f'{i} + 🤖')
